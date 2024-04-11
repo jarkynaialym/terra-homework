@@ -9,17 +9,15 @@ variable region {
 }
 
 
-
+ 
 
 resource "aws_instance" "web" {
-   ami = var.ami_id
+  ami = var.ami_id
   instance_type = var.type
   key_name = var.key_name
-  count = 3
-#   vpc_security_group_ids = var.aws_security_group.of_the_ec2.id
-  # count = var.count 
-  availability_zone = var.availability_zones[count.index]
-
+  count = 1
+  availability_zone = var.availability_zone
+  security_groups = [aws_security_group.of_the_ec2.id] 
 }
 
 variable ami_id {
@@ -36,24 +34,22 @@ variable type {
 }
 
 variable key_name {
-    description = "Provide key name"
-    default = ""  
-    type = string
+  description = "Provide key name"
+  default = ""  
+   type = string
 }
 
-# variable vpc_security_group_ids {
-#   description = "Allow TLS inbound traffic and all outbound traffic"
-#   default = ""
-#   type = string
-# }
 
 
-# variable "count" {
-#   description = "Number of instances to create"
-#   type        = number
-# }
+variable instance_count {
+  description = "Provided count "
+  default = 1
+  type = number
+  }
+
 variable "availability_zone" {
   description = "Availability Zone"
+  default = ""
   type        = string
 }
 
